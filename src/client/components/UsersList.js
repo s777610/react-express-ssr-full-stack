@@ -29,8 +29,9 @@ const mapStateToProps = state => {
   };
 };
 
-const loadData = () => {
-  console.log("I am trying to load some data");
+const loadData = store => {
+  // dispatch fetchUsers() action creator
+  return store.dispatch(fetchUsers());
 };
 
 export { loadData };

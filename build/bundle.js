@@ -215,13 +215,15 @@ app.get("*", function (req, res) {
   var store = (0, _createStore2.default)();
 
   // matchRoutes(Routes, req.path) is an array of route
-  (0, _reactRouterConfig.matchRoutes)(_Routes2.default, req.path).map(function (_ref) {
+  var promises = (0, _reactRouterConfig.matchRoutes)(_Routes2.default, req.path).map(function (_ref) {
     var route = _ref.route;
 
-    return route.loadData ? route.loadData() : null;
+    return route.loadData ? route.loadData(store) : null;
   });
 
-  res.send((0, _renderer2.default)(req, store));
+  Promise.all(promises).then(function () {
+    res.send((0, _renderer2.default)(req, store)); // store chock full of data here
+  });
 });
 
 var PORT = 3000;
@@ -359,8 +361,9 @@ var mapStateToProps = function mapStateToProps(state) {
   };
 };
 
-var loadData = function loadData() {
-  console.log("I am trying to load some data");
+var loadData = function loadData(store) {
+  // dispatch fetchUsers() action creator
+  return store.dispatch((0, _actions.fetchUsers)());
 };
 
 exports.loadData = loadData;

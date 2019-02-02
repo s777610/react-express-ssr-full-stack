@@ -41566,8 +41566,9 @@ var mapStateToProps = function mapStateToProps(state) {
   };
 };
 
-var loadData = function loadData() {
-  console.log("I am trying to load some data");
+var loadData = function loadData(store) {
+  // dispatch fetchUsers() action creator
+  return store.dispatch((0, _actions.fetchUsers)());
 };
 
 exports.loadData = loadData;
