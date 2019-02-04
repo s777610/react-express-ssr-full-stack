@@ -14,5 +14,6 @@ const App = ({ route }) => {
 
 export default {
   component: App,
-  loadData: ({ dispatch }) => dispatch(fetchCurrentUser)
+  // call fetchCurrentUser() action creator whenever we load this app
+  loadData: ({ dispatch }) => dispatch(fetchCurrentUser())
 };
