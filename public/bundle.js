@@ -7834,7 +7834,7 @@ var _Routes = __webpack_require__(471);
 
 var _Routes2 = _interopRequireDefault(_Routes);
 
-var _reducers = __webpack_require__(476);
+var _reducers = __webpack_require__(477);
 
 var _reducers2 = _interopRequireDefault(_reducers);
 
@@ -42348,6 +42348,10 @@ var _UsersListPage = __webpack_require__(475);
 
 var _UsersListPage2 = _interopRequireDefault(_UsersListPage);
 
+var _NotFoundPage = __webpack_require__(476);
+
+var _NotFoundPage2 = _interopRequireDefault(_NotFoundPage);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 // rounter are shared for both server and client
@@ -42357,7 +42361,7 @@ exports.default = [_extends({}, _App2.default, {
     exact: true
   }), _extends({}, _UsersListPage2.default, {
     path: "/users"
-  })]
+  }), _extends({}, _NotFoundPage2.default)]
 })];
 
 /***/ }),
@@ -42398,7 +42402,7 @@ var App = function App(_ref) {
 
 exports.default = {
   component: App,
-  // call this action creator whenever we load this app
+  // call fetchCurrentUser() action creator whenever we load this app
   loadData: function loadData(_ref2) {
     var dispatch = _ref2.dispatch;
     return dispatch((0, _actions.fetchCurrentUser)());
@@ -42629,13 +42633,40 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
+var _react = __webpack_require__(5);
+
+var _react2 = _interopRequireDefault(_react);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var NotFoundPage = function NotFoundPage() {
+  return _react2.default.createElement(
+    "h1",
+    null,
+    "Ooops, route not found"
+  );
+};
+
+exports.default = { component: NotFoundPage };
+
+/***/ }),
+/* 477 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
 var _redux = __webpack_require__(113);
 
-var _usersReducer = __webpack_require__(477);
+var _usersReducer = __webpack_require__(478);
 
 var _usersReducer2 = _interopRequireDefault(_usersReducer);
 
-var _authReducer = __webpack_require__(478);
+var _authReducer = __webpack_require__(479);
 
 var _authReducer2 = _interopRequireDefault(_authReducer);
 
@@ -42647,7 +42678,7 @@ exports.default = (0, _redux.combineReducers)({
 });
 
 /***/ }),
-/* 477 */
+/* 478 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -42672,7 +42703,7 @@ exports.default = function () {
 };
 
 /***/ }),
-/* 478 */
+/* 479 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
