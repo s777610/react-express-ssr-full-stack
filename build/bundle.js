@@ -278,7 +278,14 @@ app.get("*", function (req, res) {
   });
 
   Promise.all(promises).then(function () {
-    res.send((0, _renderer2.default)(req, store)); // store chock full of data here
+    var context = {};
+
+    // render HTML base on components, and pass context to components
+    var content = (0, _renderer2.default)(req, store, context);
+
+    if (context.notFound) res.status(404);
+
+    res.send(content); // store chock full of data here
   });
 });
 
@@ -580,7 +587,12 @@ var _react2 = _interopRequireDefault(_react);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var NotFoundPage = function NotFoundPage() {
+// only server side rendering need staticContext
+var NotFoundPage = function NotFoundPage(_ref) {
+  var _ref$staticContext = _ref.staticContext,
+      staticContext = _ref$staticContext === undefined ? {} : _ref$staticContext;
+
+  staticContext.notFound = true;
   return _react2.default.createElement(
     "h1",
     null,
@@ -623,7 +635,7 @@ var _Routes2 = _interopRequireDefault(_Routes);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-exports.default = function (req, store) {
+exports.default = function (req, store, context) {
   // we are using JSX in express server for initial render
   // content is HTML
   var content = (0, _server.renderToString)(_react2.default.createElement(
@@ -631,7 +643,7 @@ exports.default = function (req, store) {
     { store: store },
     _react2.default.createElement(
       _reactRouterDom.StaticRouter,
-      { location: req.path, context: {} },
+      { location: req.path, context: context },
       _react2.default.createElement(
         "div",
         null,

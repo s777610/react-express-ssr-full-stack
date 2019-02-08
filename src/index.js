@@ -31,7 +31,14 @@ app.get("*", (req, res) => {
   });
 
   Promise.all(promises).then(() => {
-    res.send(renderer(req, store)); // store chock full of data here
+    const context = {};
+
+    // render HTML base on components, and pass context to components
+    const content = renderer(req, store, context);
+
+    if (context.notFound) res.status(404);
+
+    res.send(content); // store chock full of data here
   });
 });
 

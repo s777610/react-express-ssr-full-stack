@@ -7,12 +7,16 @@ import { renderRoutes } from "react-router-config";
 import serialize from "serialize-javascript";
 import Routes from "../client/Routes";
 
-export default (req, store) => {
+export default (req, store, context) => {
   // we are using JSX in express server for initial render
   // content is HTML
   const content = renderToString(
     <Provider store={store}>
-      <StaticRouter location={req.path} context={{}}>
+      {/* StaticRouter take context as props and pass to all components it rendered */}
+      {/* This is the context object that we pass to the StaticRouter.
+        It can be modified by routes to provide additional information
+        for the server-side render */}
+      <StaticRouter location={req.path} context={context}>
         <div>{renderRoutes(Routes)}</div>
       </StaticRouter>
     </Provider>
