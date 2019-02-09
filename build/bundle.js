@@ -309,6 +309,7 @@ app.use("/api", (0, _expressHttpProxy2.default)("http://react-ssr-api.herokuapp.
 
 app.use(_express2.default.static("public")); // allow browser to find public/bundle
 app.get("*", function (req, res) {
+  // create axiosInstance(with cookie) for inital request, and pass into applyMiddleware()
   var store = (0, _createStore2.default)(req);
 
   // matchRoutes(Routes, req.path) is an array of route
@@ -316,8 +317,17 @@ app.get("*", function (req, res) {
     var route = _ref.route;
 
     return route.loadData ? route.loadData(store) : null;
+  }).map(function (promise) {
+    // because some may be null so we need if (promise)
+    if (promise) {
+      return new Promise(function (resolve, reject) {
+        // no matter what, always resolve
+        promise.then(resolve).catch(resolve);
+      });
+    }
   });
 
+  // promises are dispatching many action creators
   Promise.all(promises).then(function () {
     var context = {};
 

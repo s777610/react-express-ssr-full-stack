@@ -23,13 +23,25 @@ app.use(
 
 app.use(express.static("public")); // allow browser to find public/bundle
 app.get("*", (req, res) => {
+  // create axiosInstance(with cookie) for inital request, and pass into applyMiddleware()
   const store = createStore(req);
 
   // matchRoutes(Routes, req.path) is an array of route
-  const promises = matchRoutes(Routes, req.path).map(({ route }) => {
-    return route.loadData ? route.loadData(store) : null;
-  });
+  const promises = matchRoutes(Routes, req.path)
+    .map(({ route }) => {
+      return route.loadData ? route.loadData(store) : null;
+    })
+    .map(promise => {
+      // because some may be null so we need if (promise)
+      if (promise) {
+        return new Promise((resolve, reject) => {
+          // no matter what, always resolve
+          promise.then(resolve).catch(resolve);
+        });
+      }
+    });
 
+  // promises are dispatching many action creators
   Promise.all(promises).then(() => {
     const context = {};
 
