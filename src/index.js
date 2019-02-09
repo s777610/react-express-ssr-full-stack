@@ -48,6 +48,11 @@ app.get("*", (req, res) => {
     // render HTML base on components, and pass context to components
     const content = renderer(req, store, context);
 
+    // console.log(context);
+
+    // not send back the context but redirect
+    if (context.url) return res.redirect(302, context.url);
+
     if (context.notFound) res.status(404);
 
     res.send(content); // store chock full of data here
